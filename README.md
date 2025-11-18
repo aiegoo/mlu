@@ -117,8 +117,15 @@ jupyter notebook environment_compatibility_check.ipynb
 # For macOS/Linux:
 ./install.sh
 
-# 3. Start learning!
-jupyter notebook 01_foundations/week1_deep_learning_mastery.ipynb
+# 3. Start Jupyter (no password required!)
+# For Windows:
+start_jupyter.bat
+
+# For macOS/Linux:
+./start_jupyter.sh
+
+# 4. Access at: http://localhost:8888 (no password needed!)
+# 5. Start learning with: 01_foundations/week1_deep_learning_mastery.ipynb
 ```
 
 ### Option 2: Manual Setup with Existing Anaconda
@@ -131,9 +138,10 @@ jupyter notebook 01_foundations/environment_compatibility_check.ipynb
 cd 01_foundations
 ./setup_conda_environment.sh
 
-# 3. Activate and start learning
+# 3. Activate and start learning (no password required!)
 conda activate mlu
-jupyter notebook week1_deep_learning_mastery.ipynb
+jupyter notebook --no-browser --ip=localhost --port=8888
+# Access at: http://localhost:8888 (no password needed!)
 ```
 
 ### Option 3: Docker Environment
@@ -142,9 +150,11 @@ For containerized, reproducible setup:
 # 1. Check system compatibility
 jupyter notebook 01_foundations/environment_compatibility_check.ipynb
 
-# 2. Set up Docker environment
+# 2. Set up Docker environment  
 cd 01_foundations
 ./setup_docker_environment.sh
+
+# 3. Access at: http://localhost:8888 (automatically configured without password!)
 
 # 3. Access via browser at http://localhost:8888
 ```

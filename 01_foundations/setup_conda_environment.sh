@@ -163,10 +163,32 @@ echo ""
 echo -e "${GREEN}🎉 MLU Conda environment setup complete!${NC}"
 echo "====================================="
 echo ""
+# Configure Jupyter to run without password
+echo -e "${BLUE}🔧 Configuring Jupyter (no password required)...${NC}"
+jupyter notebook --generate-config -y 2>/dev/null || true
+
+# Create jupyter config directory if it doesn't exist
+mkdir -p "$HOME/.jupyter"
+
+# Configure Jupyter to run without password or token
+cat > "$HOME/.jupyter/jupyter_notebook_config.py" << 'JUPYTER_CONFIG'
+# MLU Jupyter Configuration - No Password Required
+c.NotebookApp.token = ''
+c.NotebookApp.password = ''
+c.NotebookApp.open_browser = True
+c.NotebookApp.ip = 'localhost'
+c.NotebookApp.port = 8888
+c.NotebookApp.allow_origin = '*'
+c.NotebookApp.disable_check_xsrf = True
+JUPYTER_CONFIG
+
+echo -e "${GREEN}✅ Jupyter configured for password-free access${NC}"
+echo ""
 echo -e "${BLUE}📚 Next steps:${NC}"
 echo "1. Activate environment: conda activate $ENV_NAME"
 echo "2. Run compatibility check: jupyter notebook environment_compatibility_check.ipynb"
 echo "3. Start learning: jupyter notebook week1_deep_learning_mastery.ipynb"
+echo "4. Access Jupyter at: http://localhost:8888 (no password needed!)"
 echo ""
 echo -e "${PURPLE}💡 Pro tips:${NC}"
 echo "• Use 'conda deactivate' to exit the environment"
@@ -180,3 +202,18 @@ echo "Saving environment information..."
 conda env export > "${SCRIPT_DIR}/mlu_environment_export.yml"
 echo -e "${GREEN}✅ Environment exported to mlu_environment_export.yml${NC}"
 echo "   Use this file to recreate the environment: conda env create -f mlu_environment_export.yml"
+
+# Create quick start script
+cat > "${SCRIPT_DIR}/start_jupyter.sh" << 'START_SCRIPT'
+#!/bin/bash
+# MLU Quick Start - Launch Jupyter without password
+echo "🚀 Starting MLU Jupyter environment..."
+source "$(conda info --base)/etc/profile.d/conda.sh"
+conda activate mlu
+echo "📝 Opening compatibility check notebook..."
+jupyter notebook environment_compatibility_check.ipynb
+START_SCRIPT
+
+chmod +x "${SCRIPT_DIR}/start_jupyter.sh"
+echo -e "${GREEN}✅ Quick start script created: start_jupyter.sh${NC}"
+echo "   Run ./start_jupyter.sh to launch Jupyter instantly!"

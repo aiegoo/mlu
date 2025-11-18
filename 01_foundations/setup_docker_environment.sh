@@ -138,8 +138,18 @@ WORKDIR /home/jovyan/mlu
 # Expose ports for Jupyter and TensorBoard
 EXPOSE 8888 6006
 
+# Configure Jupyter for no password access
+RUN jupyter notebook --generate-config -y && \
+    echo "c.NotebookApp.token = ''" >> /home/jovyan/.jupyter/jupyter_notebook_config.py && \
+    echo "c.NotebookApp.password = ''" >> /home/jovyan/.jupyter/jupyter_notebook_config.py && \
+    echo "c.NotebookApp.open_browser = False" >> /home/jovyan/.jupyter/jupyter_notebook_config.py && \
+    echo "c.NotebookApp.ip = '0.0.0.0'" >> /home/jovyan/.jupyter/jupyter_notebook_config.py && \
+    echo "c.NotebookApp.port = 8888" >> /home/jovyan/.jupyter/jupyter_notebook_config.py && \
+    echo "c.NotebookApp.allow_origin = '*'" >> /home/jovyan/.jupyter/jupyter_notebook_config.py && \
+    echo "c.NotebookApp.disable_check_xsrf = True" >> /home/jovyan/.jupyter/jupyter_notebook_config.py
+
 # Start Jupyter Lab
-CMD ["start-notebook.sh", "--NotebookApp.token=''", "--NotebookApp.password=''"]
+CMD ["start-notebook.sh", "--NotebookApp.token=''", "--NotebookApp.password=''", "--NotebookApp.allow_root=True"]
 EOF
     echo -e "${GREEN}✅ Dockerfile created: $DOCKERFILE${NC}"
 fi
@@ -190,7 +200,7 @@ if docker ps --format "table {{.Names}}" | grep -q "^${CONTAINER_NAME}$"; then
     echo ""
     echo -e "${BLUE}📚 Access Information:${NC}"
     echo "======================================"
-    echo -e "${GREEN}🌐 Jupyter Lab: http://localhost:${JUPYTER_PORT}${NC}"
+    echo -e "${GREEN}🌐 Jupyter Lab: http://localhost:${JUPYTER_PORT} (NO PASSWORD REQUIRED!)${NC}"
     echo -e "${GREEN}📊 TensorBoard: http://localhost:${TENSORBOARD_PORT}${NC}"
     echo ""
     
