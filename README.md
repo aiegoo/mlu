@@ -102,25 +102,60 @@ mlu/
 
 ## 🔧 Getting Started
 
-### Quick Setup (Recommended)
+## 🚀 Quick Start
+
+### Option 1: Automated Setup (Recommended)
 ```bash
-# Linux/Mac/WSL
+# 1. Check environment compatibility first
+cd 01_foundations
+jupyter notebook environment_compatibility_check.ipynb
+
+# 2. Run the appropriate installation script based on your system
+# For Windows:
+./install.ps1
+
+# For macOS/Linux:
 ./install.sh
 
-# Windows PowerShell  
-.\install.ps1
-
-# Then launch
-./quick_start.sh    # Linux/Mac
-.\quick_start.ps1   # Windows
+# 3. Start learning!
+jupyter notebook 01_foundations/week1_deep_learning_mastery.ipynb
 ```
 
-### Manual Setup
-1. **Set up your environment**: See `environments/setup.md`
-2. **Start with foundations**: Navigate to `01_foundations/`
-3. **Follow the weekly schedule**: Each folder contains structured materials
-4. **Practice regularly**: Complete exercises and mini-projects
-5. **Join the community**: Participate in d2l.ai discussions
+### Option 2: Manual Setup with Existing Anaconda
+If you already have Anaconda installed:
+```bash
+# 1. Check compatibility and get personalized recommendations
+jupyter notebook 01_foundations/environment_compatibility_check.ipynb
+
+# 2. Set up optimized conda environment
+cd 01_foundations
+./setup_conda_environment.sh
+
+# 3. Activate and start learning
+conda activate mlu
+jupyter notebook week1_deep_learning_mastery.ipynb
+```
+
+### Option 3: Docker Environment
+For containerized, reproducible setup:
+```bash
+# 1. Check system compatibility
+jupyter notebook 01_foundations/environment_compatibility_check.ipynb
+
+# 2. Set up Docker environment
+cd 01_foundations
+./setup_docker_environment.sh
+
+# 3. Access via browser at http://localhost:8888
+```
+
+### Environment Compatibility Check 🔍
+Before starting, run our compatibility checker to get personalized setup recommendations:
+- **System Detection**: Automatically detects your OS, Python, Anaconda, and Docker
+- **Package Verification**: Checks all required packages and versions
+- **GPU Detection**: Tests PyTorch CUDA support and GPU availability
+- **Performance Baseline**: Establishes performance benchmarks for your system
+- **Personalized Recommendations**: Provides optimized setup instructions based on your configuration
 
 ## 📝 Progress Tracking
 
