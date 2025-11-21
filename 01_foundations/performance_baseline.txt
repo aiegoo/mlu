@@ -1,0 +1,8 @@
+MLU Performance Baseline Results
+========================================
+Test Date: 2025-11-19 17:50:47
+NumPy Matrix Multiplication: 0.029s
+PyTorch CPU: 0.019s
+Neural Network Training (100 epochs): 0.232s
+Memory: 31.6 GB
+CPU Cores: 20

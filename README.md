@@ -104,7 +104,26 @@ mlu/
 
 ## 🚀 Quick Start
 
-### Option 1: Automated Setup (Recommended)
+### 🎯 Super Simple Setup (New!)
+```bash
+# 1. One-command setup (creates environment if missing)
+# Windows:
+setup_mlu_environment.bat
+
+# Linux/macOS:
+./setup_mlu_environment.sh
+
+# 2. Start Jupyter instantly (no password!)
+# Windows:
+start_jupyter.bat
+
+# Linux/macOS:
+./start_jupyter.sh
+
+# 3. Access at: http://localhost:8888 (no password required!)
+```
+
+### Option 1: Automated Setup (Advanced)
 ```bash
 # 1. Check environment compatibility first
 cd 01_foundations
