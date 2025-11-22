@@ -225,8 +225,8 @@ aws sts get-session-token \\
     --token-code 123456
 
 # Use the returned credentials in your CLI configuration
-export AWS_ACCESS_KEY_ID=<temp-access-key>
-export AWS_SECRET_ACCESS_KEY=<temp-secret-key>
+export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID"
+export AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY"
 export AWS_SESSION_TOKEN=<session-token>
 \`\`\`
 

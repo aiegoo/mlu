@@ -55,6 +55,9 @@ env.bak/
 venv.bak/
 mlu_env/
 
+# Prevent committing sensitive credentials
+.env.mlu
+
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -170,4 +173,4 @@ mlruns/
 mlartifacts/
 
 # Weights & Biases
-wandb/
+wandb/.env.mlu
