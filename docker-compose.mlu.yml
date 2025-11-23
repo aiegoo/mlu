@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  mlu-jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.mlu
+    container_name: mlu-deep-learning
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/home/jovyan/work
+      - mlu_data:/home/jovyan/work/datasets
+      - mlu_models:/home/jovyan/work/models
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-mlu2025}
+      # AWS and other secrets should be provided via environment variables or docker-compose env_file/global env
+    restart: unless-stopped
+    networks:
+      - mlu-network
+
+  # Optional: TensorBoard service
+  tensorboard:
+    image: tensorflow/tensorflow:latest
+    container_name: mlu-tensorboard
+    ports:
+      - "6006:6006"
+    volumes:
+      - ./logs:/logs
+    command: tensorboard --logdir=/logs --host=0.0.0.0 --port=6006
+    networks:
+      - mlu-network
+    profiles:
+      - tensorboard
+
+volumes:
+  mlu_data:
+  mlu_models:
+
+networks:
+  mlu-network:
+    driver: bridge

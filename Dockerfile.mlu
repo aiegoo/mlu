@@ -1,0 +1,59 @@
+# MLU Deep Learning Docker Environment
+FROM jupyter/pytorch-notebook:latest
+
+# Switch to root for system installations
+USER root
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    vim \
+    htop \
+    wget \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Switch back to jovyan user
+USER jovyan
+
+# Copy requirements
+COPY requirements.txt /tmp/
+COPY environments/environment.yml /tmp/
+
+# Install Python packages
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+# Install additional packages for MLU
+RUN pip install --no-cache-dir \
+    d2l \
+    plotly \
+    ipywidgets \
+    jupyter-dash
+
+# Install Jupyter extensions
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
+
+# Set working directory
+WORKDIR /home/jovyan/work
+
+# Create MLU directory structure
+RUN mkdir -p \
+    01_foundations \
+    02_ml_basics \
+    03_deep_learning \
+    04_computer_vision \
+    05_nlp \
+    06_advanced \
+    07_projects \
+    datasets \
+    utils \
+    resources
+
+# Copy MLU content
+COPY --chown=jovyan:users . .
+
+# Expose Jupyter port
+EXPOSE 8888
+
+# Start Jupyter Lab
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]

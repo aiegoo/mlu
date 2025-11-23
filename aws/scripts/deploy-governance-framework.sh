@@ -1,0 +1,201 @@
+#!/bin/bash
+
+echo "🚀 MLA-C01 Governance Framework Deployment"
+echo "========================================="
+echo "Implementing comprehensive AWS governance for MLA-C01 exam preparation"
+echo ""
+
+# Set AWS region
+export AWS_DEFAULT_REGION=ap-southeast-2
+
+# Color codes for output
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+# Function to print status
+print_status() {
+    local status=$1
+    local message=$2
+    
+    case $status in
+        "success")
+            echo -e "${GREEN}✅ $message${NC}"
+            ;;
+        "warning")
+            echo -e "${YELLOW}⚠️  $message${NC}"
+            ;;
+        "error")
+            echo -e "${RED}❌ $message${NC}"
+            ;;
+        "info")
+            echo -e "ℹ️  $message"
+            ;;
+    esac
+}
+
+# Function to check prerequisites
+check_prerequisites() {
+    print_status "info" "Checking prerequisites..."
+    
+    # Check AWS CLI
+    if ! command -v aws &> /dev/null; then
+        print_status "error" "AWS CLI is not installed"
+        exit 1
+    fi
+    
+    # Check AWS credentials
+    if ! aws sts get-caller-identity &> /dev/null; then
+        print_status "error" "AWS credentials not configured"
+        exit 1
+    fi
+    
+    # Check jq
+    if ! command -v jq &> /dev/null; then
+        print_status "warning" "jq is not installed - some features may not work"
+    fi
+    
+    print_status "success" "Prerequisites check completed"
+    echo ""
+}
+
+# Function to deploy IAM roles
+deploy_iam_roles() {
+    print_status "info" "Deploying IAM roles..."
+    
+    if [ -f "iam-roles/create-iam-roles.sh" ]; then
+        chmod +x iam-roles/create-iam-roles.sh
+        ./iam-roles/create-iam-roles.sh
+    else
+        print_status "error" "IAM roles script not found"
+        return 1
+    fi
+}
+
+# Function to apply S3 bucket policies (when buckets exist)
+deploy_s3_policies() {
+    print_status "info" "Preparing S3 bucket policies..."
+    
+    if [ -f "s3-policies/apply-bucket-policies.sh" ]; then
+        chmod +x s3-policies/apply-bucket-policies.sh
+        ./s3-policies/apply-bucket-policies.sh
+    else
+        print_status "error" "S3 policies script not found"
+        return 1
+    fi
+}
+
+# Function to create AWS Config rules
+deploy_config_rules() {
+    print_status "info" "Creating AWS Config compliance rules..."
+    
+    if [ -f "config-rules/create-config-rules.sh" ]; then
+        chmod +x config-rules/create-config-rules.sh
+        ./config-rules/create-config-rules.sh
+    else
+        print_status "error" "Config rules script not found"
+        return 1
+    fi
+}
+
+# Function to generate deployment summary
+generate_summary() {
+    print_status "info" "Generating deployment summary..."
+    
+    local summary_file="deployment-summary-$(date +%Y%m%d-%H%M%S).md"
+    
+    cat > "$summary_file" << EOF
+# MLA-C01 Governance Framework Deployment Summary
+
+**Deployment Date:** $(date)
+**AWS Region:** $AWS_DEFAULT_REGION
+**AWS Account:** $(aws sts get-caller-identity --query Account --output text)
+
+## Components Deployed
+
+### 1. IAM Roles
+- **MLA-DataEngineer-Role**: Data pipeline and processing access
+- **MLA-DataScientist-Role**: Model development and experimentation access  
+- **MLA-MLOps-Role**: Infrastructure and deployment management access
+- **MLA-Auditor-Role**: Compliance monitoring and read-only access
+
+### 2. S3 Bucket Policies
+- **mla-data-ingestion-hub**: Secure data ingestion with encryption enforcement
+- **mla-feature-store-registry**: Feature store access control with role-based permissions
+- **mla-model-artifact-vault**: Model artifacts with production/staging separation
+- **mla-experiment-tracking-lab**: Experiment tracking with scientist/engineer collaboration
+- **mla-deployment-pipeline-config**: Deployment configuration with MFA requirements
+
+### 3. AWS Config Rules
+- **S3 Encryption Compliance**: Ensures all MLA buckets have encryption enabled
+- **IAM Role Policy Compliance**: Validates appropriate managed policies
+- **S3 Public Access Prevention**: Prevents accidental public access
+- **SageMaker Encryption**: Ensures KMS encryption for ML endpoints
+
+## Next Steps
+
+1. **Rename existing buckets** to align with strategic naming convention
+2. **Apply bucket policies** once buckets are renamed
+3. **Test role assignments** with specific users/services
+4. **Monitor compliance** through AWS Config dashboard
+5. **Review and optimize** policies based on actual usage patterns
+
+## Compliance Benefits for MLA-C01
+
+- ✅ **Security**: Encryption enforcement and access controls
+- ✅ **Governance**: Role-based access management
+- ✅ **Monitoring**: Automated compliance checking
+- ✅ **Audit Trail**: Complete activity logging and tracking
+- ✅ **Cost Control**: Resource access optimization
+
+## Budget Impact
+
+- **IAM Roles**: No additional cost
+- **S3 Bucket Policies**: No additional cost  
+- **AWS Config Rules**: ~\$2/rule/region/month (4 rules = ~\$8/month)
+- **Total Estimated Monthly Cost**: ~\$8 USD
+
+---
+*Generated by MLA-C01 Governance Framework Automation*
+EOF
+
+    print_status "success" "Deployment summary created: $summary_file"
+}
+
+# Main execution
+main() {
+    echo "Starting MLA-C01 governance framework deployment..."
+    echo ""
+    
+    # Check prerequisites
+    check_prerequisites
+    
+    # Deploy components
+    deploy_iam_roles
+    echo ""
+    
+    deploy_s3_policies  
+    echo ""
+    
+    deploy_config_rules
+    echo ""
+    
+    # Generate summary
+    generate_summary
+    echo ""
+    
+    print_status "success" "🎯 MLA-C01 Governance Framework Deployment Complete!"
+    echo ""
+    echo "Key accomplishments:"
+    echo "  • IAM roles created with least-privilege access"
+    echo "  • S3 bucket policies prepared for strategic buckets"
+    echo "  • AWS Config rules enabled for compliance monitoring"
+    echo "  • Comprehensive audit trail established"
+    echo ""
+    echo "Next: Execute bucket renaming strategy and apply policies"
+    echo "========================================="
+}
+
+# Run main function
+main

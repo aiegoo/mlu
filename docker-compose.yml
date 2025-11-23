@@ -1,0 +1,46 @@
+services:
+  d2l-jupyter:
+    build: .
+    runtime: nvidia
+    restart: always
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/workspace/mlu
+      - D:/repos/tonylee/goorm/ai-track:/workspace/ai-track
+      - ai-track-data:/workspace/ai-track-data
+      - jupyter-data:/home/jupyter/.jupyter
+    env_file:
+      - D:/repos/tonylee/goorm/ai-track/.env
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=""
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=all
+      - LANG=en_US.UTF-8
+      - LC_ALL=en_US.UTF-8
+    command: |
+      bash -c "
+        echo '🚀 Starting D2L.ai Learning Environment...'
+        echo '📍 MLU Project: /workspace/mlu'
+        echo '🎯 AI Track: /workspace/ai-track'
+        echo '📚 D2L Official: /workspace/ai-track/d2l-official/d2l-en'
+        echo '🔗 Access JupyterLab at: http://localhost:8888'
+        echo ''
+        echo '📂 Directory Structure:'
+        echo '├── /workspace/mlu (your current project)'
+        echo '├── /workspace/ai-track/'
+        echo '│   ├── d2l-official/ (official d2l.ai notebooks)'
+        echo '│   ├── projects/ (your AI projects)'
+        echo '│   ├── datasets/ (shared datasets)'
+        echo '│   ├── experiments/ (experiment tracking)'
+        echo '│   └── models/ (saved models)'
+        echo ''
+        jupyter lab --no-browser --allow-root --ip=0.0.0.0 --port=8888 --NotebookApp.token='' --NotebookApp.password=''
+      "
+    stdin_open: true
+    tty: true
+
+volumes:
+  ai-track-data:
+  jupyter-data:
