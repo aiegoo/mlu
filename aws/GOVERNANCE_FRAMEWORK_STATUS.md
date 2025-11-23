@@ -1,38 +1,51 @@
-# 🎯 MLA-C01 Governance Framework Implementation Status
 
-**Date:** November 22, 2025  
+# 🎯 Oreumi-MLU Governance Framework Status
+
+
+**Date:** November 23, 2025  
 **Account:** 819556863188  
 **Region:** ap-southeast-2  
 **Implementation Status:** ✅ **PHASE 1 COMPLETE**
 
+**Naming Convention Update:**
+- All new resources, scripts, and notebooks use short, human-friendly names based on: `oreumi`, `elbee`, `mlu`, `basics`.
+- Example: `oreumi-data`, `elbee-user`, `mlu-bucket`, `basics-eval`.
+
+**Recent Changes:**
+- 🔒 Secrets and credentials are now managed only via environment variables or host-level Docker Compose settings. `.env.mlu` is excluded from version control and not mounted in containers.
+- 🐳 Docker Compose and Jupyter Lab now rely on global environment for AWS and other secrets, ensuring consistency and security.
+- 📚 New notebook templates and scripts will use the above naming convention for clarity and collaboration.
+
 ## 🚀 What We've Accomplished
 
-### ✅ 1. IAM Roles Infrastructure (COMPLETE)
-**Status:** All 4 roles successfully created and deployed
 
-| Role Name | Purpose | ARN | Status |
-|-----------|---------|-----|--------|
-| MLA-DataEngineer-Role | Data pipeline & processing | arn:aws:iam::819556863188:role/MLA-DataEngineer-Role | ✅ Active |
-| MLA-DataScientist-Role | Model development & experimentation | arn:aws:iam::819556863188:role/MLA-DataScientist-Role | ✅ Active |
-| MLA-MLOps-Role | Infrastructure & deployment management | arn:aws:iam::819556863188:role/MLA-MLOps-Role | ✅ Active |
-| MLA-Auditor-Role | Compliance monitoring & auditing | arn:aws:iam::819556863188:role/MLA-Auditor-Role | ✅ Active |
+### ✅ 1. IAM Roles Infrastructure (COMPLETE)
+**Status:** All 4 roles created and deployed using new naming convention
+
+| Role Name (New) | Purpose | ARN | Status |
+|-----------------|---------|-----|--------|
+| oreumi-dataeng-role | Data pipeline & processing | arn:aws:iam::819556863188:role/oreumi-dataeng-role | ✅ Active |
+| elbee-datasci-role | Model development & experimentation | arn:aws:iam::819556863188:role/elbee-datasci-role | ✅ Active |
+| mlu-mlops-role | Infrastructure & deployment management | arn:aws:iam::819556863188:role/mlu-mlops-role | ✅ Active |
+| basics-audit-role | Compliance monitoring & auditing | arn:aws:iam::819556863188:role/basics-audit-role | ✅ Active |
 
 **Key Features:**
-- ✅ Least-privilege access principles
-- ✅ Service-specific trust policies  
-- ✅ MLA-C01 exam domain alignment
+- ✅ Least-privilege access
+- ✅ Service-specific trust policies
+- ✅ Naming aligned for clarity and collaboration
 - ✅ Ready for production deployment
 
-### ✅ 2. S3 Bucket Policies (READY TO DEPLOY)
-**Status:** Policies created, pending bucket renaming
 
-| Bucket Strategy Name | Policy File | Key Features |
-|---------------------|-------------|--------------|
-| mla-data-ingestion-hub | ✅ Created | Encryption enforcement, role-based access |
-| mla-feature-store-registry | ✅ Created | Feature store access control, scientist/engineer collaboration |
-| mla-model-artifact-vault | ✅ Created | Production/staging separation, audit logging |
-| mla-experiment-tracking-lab | ✅ Created | Experiment access, results sharing |
-| mla-deployment-pipeline-config | ✅ Created | MFA requirements, MLOps control |
+### ✅ 2. S3 Bucket Policies (UPDATED)
+**Status:** Policies created, buckets renamed for clarity
+
+| Bucket Name (New) | Policy File | Key Features |
+|-------------------|-------------|--------------|
+| oreumi-data | ✅ Created | Encryption, role-based access |
+| elbee-featurestore | ✅ Created | Feature store, collaboration |
+| mlu-models | ✅ Created | Prod/stage separation, audit logging |
+| basics-experiments | ✅ Created | Experiment tracking, results sharing |
+| mlu-pipeline-config | ✅ Created | MFA, MLOps control |
 
 **Security Controls:**
 - ✅ Mandatory encryption (AES256)

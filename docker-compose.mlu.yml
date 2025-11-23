@@ -10,12 +10,12 @@ services:
       - "8888:8888"
     volumes:
       - .:/home/jovyan/work
-      - ./../mlu/.env.mlu:/home/jovyan/work/.env.mlu
       - mlu_data:/home/jovyan/work/datasets
       - mlu_models:/home/jovyan/work/models
     environment:
       - JUPYTER_ENABLE_LAB=yes
       - JUPYTER_TOKEN=${JUPYTER_TOKEN:-mlu2025}
+      # AWS and other secrets should be provided via environment variables or docker-compose env_file/global env
     restart: unless-stopped
     networks:
       - mlu-network
