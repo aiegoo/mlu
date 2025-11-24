@@ -38,4 +38,7 @@ CREATE TABLE dynamodb_sink (
 
 INSERT INTO s3_sink SELECT review_id, label, ts FROM source_stream;
 INSERT INTO dynamodb_sink SELECT review_id, CAST(ts AS STRING), label, UNIX_TIMESTAMP(ts) + 2592000 FROM source_stream;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5fa6555 (Save all local and AWS pipeline scripts, notebooks, and infra changes. Sensitive files are now ignored.)

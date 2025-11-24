@@ -99,7 +99,7 @@ services:
       - mlu_models:/home/jovyan/work/models
     environment:
       - JUPYTER_ENABLE_LAB=yes
-      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-mlu2025}
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-[set in .env.mlu]}
     restart: unless-stopped
     networks:
       - mlu-network
@@ -131,7 +131,7 @@ EOF
 print_status "Creating Docker environment file..."
 cat > .env.mlu << 'EOF'
 # MLU Docker Environment Configuration
-JUPYTER_TOKEN=mlu2025
+JUPYTER_TOKEN=
 COMPOSE_PROJECT_NAME=mlu
 DOCKER_BUILDKIT=1
 EOF

@@ -49,4 +49,8 @@ def main():
     logging.info(f"Done. Sent {count} events.")
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     main()
+=======
+    main()
+>>>>>>> 5fa6555 (Save all local and AWS pipeline scripts, notebooks, and infra changes. Sensitive files are now ignored.)

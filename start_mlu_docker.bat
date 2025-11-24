@@ -15,7 +15,7 @@ echo ✅ MLU Docker environment started!
 echo.
 echo 🚀 Access Jupyter Lab:
 echo    URL: http://localhost:8888
-echo    Token: mlu2025
+echo    Token: [set in .env.mlu]
 echo.
 echo 📚 Quick commands:
 echo    docker-compose -f docker-compose.mlu.yml logs -f    # View logs
